@@ -67,7 +67,7 @@ class CreateUserServiceTest {
         assertEquals(now, result.getCreated());
         assertEquals(now, result.getModified());
         assertEquals(now, result.getLastLogin());
-        assertTrue(result.isActive());
+        assertTrue(result.isIsactive());
         assertEquals(token, result.getToken());
         verify(userRepository, times(1)).execute(userRequest);
         verify(authRepository, times(1)).execute(loginRequest);

@@ -21,8 +21,8 @@ public class CreateUserHandler {
     }
 
     public UserResponseDto execute(UserRequestDto userRequestDto) {
-        userRequestDto.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
         UserRequest userRequest = mapper.requestToModel(userRequestDto);
+        userRequest.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
         return mapper.responseToDto(service.execute(userRequest));
     }
 }

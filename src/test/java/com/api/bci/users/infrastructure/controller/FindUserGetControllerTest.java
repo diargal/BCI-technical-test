@@ -61,7 +61,7 @@ class FindUserGetControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(name))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value(userEmail))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.active").value(Boolean.TRUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isactive").value(Boolean.TRUE))
                 .andDo(print());
     }
 

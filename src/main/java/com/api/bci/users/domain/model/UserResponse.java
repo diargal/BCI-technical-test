@@ -19,6 +19,6 @@ public class UserResponse {
     private LocalDateTime created;
     private LocalDateTime modified;
     private LocalDateTime lastLogin;
-    private boolean isActive;
+    private boolean isactive;
     private String token;
 }

@@ -23,7 +23,7 @@ class ArgumentValidationTest {
     void testEmailFormatValidation_InvalidEmail_ExceptionThrown() {
         EmailFormatException exception = assertThrows(EmailFormatException.class,
                 () -> ArgumentValidation.emailFormatValidation("invalid-email", "email"));
-        assertEquals("No se cumple con el formato de correo: email", exception.getMessage());
+        assertEquals("No se cumple con el formato de correo.", exception.getMessage());
     }
 
     @Test

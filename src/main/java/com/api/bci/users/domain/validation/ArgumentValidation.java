@@ -21,7 +21,7 @@ public class ArgumentValidation {
         String initialMessage = ErrorMessageEnum.EMAIL_FORMAT_EXCEPTION.getMessage();
         Matcher matcher = pattern.matcher(email);
         if (!matcher.matches())
-            throw new EmailFormatException(initialMessage.concat(fieldName));
+            throw new EmailFormatException(initialMessage);
     }
 
     public static void valueNotNullOrNotEmptyValidation(String value, String fieldName) {

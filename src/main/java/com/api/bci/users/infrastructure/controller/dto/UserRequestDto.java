@@ -13,5 +13,5 @@ public class UserRequestDto {
     private String email;
     private String password;
     private List<PhoneDto> phones;
-    private boolean isActive;
+    private boolean isactive;
 }

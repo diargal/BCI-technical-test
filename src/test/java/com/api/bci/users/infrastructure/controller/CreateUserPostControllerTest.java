@@ -73,7 +73,7 @@ class CreateUserPostControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(name))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value(userEmail))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.active").value(Boolean.TRUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isactive").value(Boolean.TRUE))
                 .andDo(print());
     }
 
@@ -125,7 +125,7 @@ class CreateUserPostControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value("No se cumple con el formato de correo: email"))
+                        .value("No se cumple con el formato de correo."))
                 .andDo(print());
     }
 
