@@ -1,9 +1,8 @@
 package com.api.bci.users.infrastructure.adapter.security.filter;
 
+import com.api.bci.users.domain.model.enums.ErrorMessageEnum;
 import com.api.bci.users.infrastructure.adapter.persistence.entity.UserEntity;
 import com.api.bci.users.infrastructure.adapter.security.JwtUtils;
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -34,7 +35,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-
         UserEntity userEntity;
         String email;
         String password;
@@ -42,18 +42,24 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             userEntity = new ObjectMapper().readValue(request.getInputStream(), UserEntity.class);
             email = userEntity.getEmail();
             password = userEntity.getPassword();
-        } catch (StreamReadException e) {
-            throw new RuntimeException(e);
-        } catch (DatabindException e) {
-            throw new RuntimeException(e);
+            try {
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(email, password);
+
+                return getAuthenticationManager().authenticate(authenticationToken);
+            } catch (InternalAuthenticationServiceException ex) {
+                handleException(response, ex.getMessage());
+                return null;
+            } catch (BadCredentialsException ex) {
+                handleException(response, ErrorMessageEnum.LOGIN_ERROR_BY_CREDENTIALS.getMessage());
+                return null;
+            } catch (Exception ex) {
+                handleException(response, ErrorMessageEnum.LOGIN_DEFAULT_ERROR.getMessage());
+                return null;
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(email, password);
-
-        return getAuthenticationManager().authenticate(authenticationToken);
     }
 
     @Override
@@ -78,5 +84,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.getWriter().flush();
 
         super.successfulAuthentication(request, response, chain, authResult);
+    }
+
+    private void handleException(HttpServletResponse response, String message) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", message);
+
+        new ObjectMapper().writeValue(response.getWriter(), errorResponse);
     }
 }

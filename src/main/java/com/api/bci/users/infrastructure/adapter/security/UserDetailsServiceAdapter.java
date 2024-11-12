@@ -26,7 +26,9 @@ public class UserDetailsServiceAdapter implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         UserEntity userEntity = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException(ErrorMessageEnum.USER_NOT_FOUND_EXCEPTION.getMessage()));
+                .orElseThrow(() -> new UserNotFoundException(
+                        String.format(ErrorMessageEnum.LOGIN_ERROR_BY_USER_NOT_FOUND.getMessage(), email)
+                ));
 
         Collection<? extends GrantedAuthority> authorities = userEntity.getRoles()
                 .stream()

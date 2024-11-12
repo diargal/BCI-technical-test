@@ -24,7 +24,6 @@ public class JwtUtils {
     private String timeExpiration;
 
 
-    // Generar token de acceso
     public String generateAccesToken(String email){
         return Jwts.builder()
                 .setSubject(email)
@@ -34,7 +33,6 @@ public class JwtUtils {
                 .compact();
     }
 
-    // Validar el token de acceso
     public boolean isTokenValid(String token){
         try{
             Jwts.parserBuilder()
@@ -49,18 +47,15 @@ public class JwtUtils {
         }
     }
 
-    // Obtener el username del token
     public String getUsernameFromToken(String token){
         return getClaim(token, Claims::getSubject);
     }
 
-    // Obtener un solo claim
     public <T> T getClaim(String token, Function<Claims, T> claimsTFunction){
         Claims claims = extractAllClaims(token);
         return claimsTFunction.apply(claims);
     }
 
-    // Obtener todos los claims del token
     public Claims extractAllClaims(String token){
         return Jwts.parserBuilder()
                 .setSigningKey(getSignatureKey())
@@ -69,7 +64,6 @@ public class JwtUtils {
                 .getBody();
     }
 
-    // Obtener firma del token
     public Key getSignatureKey(){
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
