@@ -6,5 +6,5 @@ import java.util.UUID;
 
 @FunctionalInterface
 public interface FindUserRepository {
-    UserResponse execute(UUID id);
+    UserResponse execute(String email);
 }

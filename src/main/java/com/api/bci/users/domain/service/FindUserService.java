@@ -12,7 +12,7 @@ public class FindUserService {
         this.repository = repository;
     }
 
-    public UserResponse execute(UUID id) {
-        return repository.execute(id);
+    public UserResponse execute(String email) {
+        return repository.execute(email);
     }
 }

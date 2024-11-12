@@ -21,8 +21,8 @@ public class FindUserGetController {
         this.findUserHandler = findUserHandler;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> findUser(@PathVariable UUID id) {
-        return ResponseEntity.ok(findUserHandler.execute(id));
+    @GetMapping("/{email}")
+    public ResponseEntity<UserResponseDto> findUser(@PathVariable String email) {
+        return ResponseEntity.ok(findUserHandler.execute(email));
     }
 }

@@ -17,7 +17,7 @@ public class FindUserHandler {
         this.mapper = mapper;
     }
 
-    public UserResponseDto execute(UUID id) {
-        return mapper.responseToDto(service.execute(id));
+    public UserResponseDto execute(String email) {
+        return mapper.responseToDto(service.execute(email));
     }
 }

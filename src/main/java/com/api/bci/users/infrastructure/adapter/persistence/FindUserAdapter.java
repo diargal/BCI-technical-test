@@ -21,8 +21,8 @@ public class FindUserAdapter implements FindUserRepository {
     }
 
     @Override
-    public UserResponse execute(UUID id) {
-        return userRepository.findById(id)
+    public UserResponse execute(String email) {
+        return userRepository.findByEmail(email)
                 .map(userEntityMapper::responseToModel)
                 .orElseThrow(() -> new UserNotFoundException(ErrorMessageEnum.USER_NOT_FOUND_EXCEPTION.getMessage()));
     }

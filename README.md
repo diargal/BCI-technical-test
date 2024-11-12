@@ -22,7 +22,7 @@ Para correr el proyecto y hacer pruebas, se debe tener presente lo siguiente:
    de este modo y enviando los parámetros y/o body correspondiente (según sea el endpoint a consumir), se pueden
    hacer los consumos restantes.
 
-- endpoint servicio find user (GET): http://localhost:8080/api/v1/users/{id}
+- endpoint servicio find user (GET): http://localhost:8080/api/v1/users/{email}
 - endpoint servicio update user (PUT): http://localhost:8080/api/v1/users/{id}
 - endpoint servicio delete user (DELETE): http://localhost:8080/api/v1/users/{id}
 
